@@ -112,6 +112,10 @@ Contributions are welcome! Please open up an issue in GitHub or submit a PR.
 
 License
 =======
-Apache 2.0
+Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 Please see [LICENSE](https://github.com/jjobes/SlideDateTimePicker/blob/master/LICENSE)
+
+Acknowledgements
+================
+Thanks to Arman Pagilagan's [blog post](http://armanpagilagan.blogspot.com/2014/05/creating-custom-date-and-time-picker-in.html) for the initial idea.
