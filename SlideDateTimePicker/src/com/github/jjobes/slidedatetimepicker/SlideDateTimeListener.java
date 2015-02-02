@@ -1,6 +1,5 @@
 package com.github.jjobes.slidedatetimepicker;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -15,10 +14,8 @@ import java.util.Date;
  * @author jjobes
  *
  */
-public abstract class SlideDateTimeListener implements Serializable
+public abstract class SlideDateTimeListener
 {
-    private static final long serialVersionUID = 1L;
-
     /**
      * Informs the client when the user presses "OK"
      * and selects a date and time.

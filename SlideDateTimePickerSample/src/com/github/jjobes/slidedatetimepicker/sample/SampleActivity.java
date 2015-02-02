@@ -29,8 +29,6 @@ public class SampleActivity extends ActionBarActivity
 
     private SlideDateTimeListener listener = new SlideDateTimeListener() {
 
-        private static final long serialVersionUID = 1L;
-
         @Override
         public void onDateTimeSet(Date date)
         {
