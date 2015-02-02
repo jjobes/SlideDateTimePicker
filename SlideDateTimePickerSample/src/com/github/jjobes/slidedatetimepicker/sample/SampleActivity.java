@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker;
-import com.github.jjobes.slidingtabdatetimepickertest.R;
 
 /**
  * Sample test class for SlideDateTimePicker.

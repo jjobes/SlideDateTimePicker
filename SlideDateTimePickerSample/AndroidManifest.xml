@@ -2,7 +2,7 @@
 
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.jjobes.slidingtabdatetimepickertest"
+    package="com.github.jjobes.slidedatetimepicker.sample"
     android:versionCode="1"
     android:versionName="1.0" >
 
