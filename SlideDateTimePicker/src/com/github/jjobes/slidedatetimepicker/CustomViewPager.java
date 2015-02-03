@@ -5,34 +5,47 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 
 /**
  * A custom ViewPager implementation that corrects the height of the ViewPager
- * and also stops the pickers from moving up or down when the user moves the
- * ViewPager horizontally.
+ * and also dispatches touch events to either the ViewPager or the date or time
+ * picker depending on the direction of the swipe.
  *
  * @author jjobes
  *
  */
 public class CustomViewPager extends ViewPager
 {
+    private CustomDatePicker mDatePicker;
+    private CustomTimePicker mTimePicker;
+    private float x1, y1, x2, y2;
+    private float mTouchSlop;
+
     public CustomViewPager(Context context)
     {
         super(context);
+
+        init(context);
     }
 
     public CustomViewPager(Context context, AttributeSet attrs)
     {
         super(context, attrs);
+
+        init(context);
+    }
+
+    private void init(Context context)
+    {
+        mTouchSlop = ViewConfiguration.get(context).getScaledPagingTouchSlop();
     }
 
     /**
      * Setting wrap_content on a ViewPager's layout_height in XML
      * doesn't seem to be recognized and the ViewPager will fill the
-     * height of the screen regardless. The immediate child of each
-     * page of the ViewPager is a LinearLayout (each of which then
-     * wraps either the DatePicker or TimePicker). So we'll force
-     * the ViewPager to have the same height as these LinearLayouts.
+     * height of the screen regardless. We'll force the ViewPager to
+     * have the same height as its immediate child.
      */
     @Override
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
@@ -51,15 +64,16 @@ public class CustomViewPager extends ViewPager
                 getLayoutParams().height = h;
             }
         }
+
+        mDatePicker = (CustomDatePicker) findViewById(R.id.datePicker);
+        mTimePicker = (CustomTimePicker) findViewById(R.id.timePicker);
     }
 
-    private float x1, y1, x2, y2;
-    private float mTouchSlopX = 20F;
-
     /**
-     * When the ViewPager is scrolling horizontally, intercept
-     * touch events and don't pass them down to the date and
-     * time pickers.
+     * When the user swipes their finger horizontally, dispatch
+     * those touch events to the ViewPager. When they swipe
+     * vertically, dispatch those touch events to the date or
+     * time picker (depending on which page we're currently on).
      *
      * @param event
      */
@@ -89,12 +103,25 @@ public class CustomViewPager extends ViewPager
          }
 
          // As long as the ViewPager isn't scrolling horizontally,
-         // allow the NumberPickers inside the date and time pickers
-         // to move. currentChild here is the LinearLayout that the
-         // picker is inside.
-         int currentPage = getCurrentItem();
-         View currentChild = (View) getChildAt(currentPage);
-         currentChild.dispatchTouchEvent(event);
+         // dispatch the event to the DatePicker or TimePicker,
+         // depending on which page the ViewPager is currently on.
+
+         switch (getCurrentItem())
+         {
+         case 0:
+
+             if (mDatePicker != null)
+                 mDatePicker.dispatchTouchEvent(event);
+
+             break;
+
+         case 1:
+
+             if (mTimePicker != null)
+                 mTimePicker.dispatchTouchEvent(event);
+
+             break;
+         }
 
          // need this for the ViewPager to scroll horizontally at all
          return super.onTouchEvent(event);
@@ -116,7 +143,7 @@ public class CustomViewPager extends ViewPager
         float deltaX = x2 - x1;
         float deltaY = y2 - y1;
 
-        if (Math.abs(deltaX) > mTouchSlopX &&
+        if (Math.abs(deltaX) > mTouchSlop &&
             Math.abs(deltaX) > Math.abs(deltaY))
         {
 
@@ -126,4 +153,3 @@ public class CustomViewPager extends ViewPager
         return false;
     }
 }
-
