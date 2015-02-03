@@ -6,6 +6,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 
 /**
  * A custom ViewPager implementation that corrects the height of the ViewPager
@@ -17,8 +19,8 @@ import android.view.ViewConfiguration;
  */
 public class CustomViewPager extends ViewPager
 {
-    private CustomDatePicker mDatePicker;
-    private CustomTimePicker mTimePicker;
+    private DatePicker mDatePicker;
+    private TimePicker mTimePicker;
     private float x1, y1, x2, y2;
     private float mTouchSlop;
 
@@ -65,8 +67,8 @@ public class CustomViewPager extends ViewPager
             }
         }
 
-        mDatePicker = (CustomDatePicker) findViewById(R.id.datePicker);
-        mTimePicker = (CustomTimePicker) findViewById(R.id.timePicker);
+        mDatePicker = (DatePicker) findViewById(R.id.datePicker);
+        mTimePicker = (TimePicker) findViewById(R.id.timePicker);
     }
 
     /**
