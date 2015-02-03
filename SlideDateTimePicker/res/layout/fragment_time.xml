@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<com.github.jjobes.slidedatetimepicker.CustomTimePicker
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/timePicker"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:gravity="center" >
-
-    <com.github.jjobes.slidedatetimepicker.CustomTimePicker
-        android:id="@+id/timePicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-</LinearLayout>
+    android:layout_height="wrap_content" />
