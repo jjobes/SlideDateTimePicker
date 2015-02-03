@@ -53,8 +53,8 @@ Then pass the listener into the builder and show the dialog:
 
 ``` java
 new SlideDateTimePicker.Builder(getSupportFragmentManager())
-    .listener(listener)
-    .initialDate(new Date())
+    .setListener(listener)
+    .setInitialDate(new Date())
     .build()
     .show();
 ```
@@ -64,12 +64,12 @@ Note that the `Date` object that you pass in to `.initialDate()` should contain 
 **To set the minimum date to display:**
 
 ``` java
-.minDate(date)
+.setMinDate(date)
 ```
 
 **To set the maximum date to display:**
 ``` java
-.maxDate(date)
+.setMaxDate(date)
 ```
 
 The default time format is the current device's default, but you can force a 24-hour or 12-hour time format:
@@ -77,26 +77,26 @@ The default time format is the current device's default, but you can force a 24-
 **To force 24-hour time:**
 
 ``` java
-.is24HourTime(true)
+.setIs24HourTime(true)
 ```
 
 **To force 12-hour time:**
 ``` java
-.is24HourTime(false)
+.setIs24HourTime(false)
 ```
 
 **The default theme is Holo Light, but you can specify either Holo Light or Dark explicitly:**
 ``` java
-.theme(SlideDateTimePicker.HOLO_LIGHT)
+.setTheme(SlideDateTimePicker.HOLO_LIGHT)
 ```
 or
 ``` java
-.theme(SlideDateTimePicker.HOLO_DARK)
+.setTheme(SlideDateTimePicker.HOLO_DARK)
 ```
 
 **To specify the color for the sliding tab underline (indicator):**
 ``` java
-.indicatorColor(Color.parseColor("#FF0000"))
+.setIndicatorColor(Color.parseColor("#FF0000"))
 ```
 
 **To specify the color of the horizontal divider lines in the DatePicker and TimePicker:**
@@ -108,6 +108,12 @@ Contributions are welcome! Please open up an issue in GitHub or submit a PR.
 
 Changelog
 =========
+
+### v1.0.1
+
+* Builder methods now correspond to outer class methods
+* Improved javadoc comments
+
 ### v1.0.0
 
 * First release
