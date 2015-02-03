@@ -65,8 +65,8 @@ public class SampleActivity extends ActionBarActivity
                     //.setMinDate(minDate)
                     //.setMaxDate(maxDate)
                     //.setIs24HourTime(true)
-                    .setTheme(SlideDateTimePicker.HOLO_LIGHT)
-                    .setIndicatorColor(Color.parseColor("#608393"))
+                    //.setTheme(SlideDateTimePicker.HOLO_DARK)
+                    //.setIndicatorColor(Color.parseColor("#990000"))
                     .build()
                     .show();
             }
