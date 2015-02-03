@@ -6,15 +6,17 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.NumberPicker;
+import android.widget.TimePicker;
 
 /**
- * This is a subclass of TimePicker that uses reflection to allow
- * for customization of the default blue dividers.
+ * A subclass of {@link android.widget.TimePicker} that uses
+ * reflection to allow for customization of the default blue
+ * dividers.
  *
  * @author jjobes
  *
  */
-public class CustomTimePicker extends android.widget.TimePicker
+public class CustomTimePicker extends TimePicker
 {
     private static final String TAG = "CustomTimePicker";
 

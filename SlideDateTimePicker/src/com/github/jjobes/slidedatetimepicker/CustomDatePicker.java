@@ -5,16 +5,18 @@ import java.lang.reflect.Field;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.widget.DatePicker;
 import android.widget.NumberPicker;
 
 /**
- * A subclass of DatePicker that uses reflection to allow
- * for customization of the default blue dividers.
+ * A subclass of {@link android.widget.DatePicker} that uses
+ * reflection to allow for customization of the default blue
+ * dividers.
  *
  * @author jjobes
  *
  */
-public class CustomDatePicker extends android.widget.DatePicker
+public class CustomDatePicker extends DatePicker
 {
     private static final String TAG = "CustomDatePicker";
 

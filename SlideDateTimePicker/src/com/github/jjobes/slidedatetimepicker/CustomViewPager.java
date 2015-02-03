@@ -10,9 +10,9 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 /**
- * A custom ViewPager implementation that corrects the height of the ViewPager
- * and also dispatches touch events to either the ViewPager or the date or time
- * picker depending on the direction of the swipe.
+ * A custom {@link android.support.v4.view.ViewPager} implementation that corrects
+ * the height of the ViewPager and also dispatches touch events to either the ViewPager
+ * or the date or time picker depending on the direction of the swipe.
  *
  * @author jjobes
  *

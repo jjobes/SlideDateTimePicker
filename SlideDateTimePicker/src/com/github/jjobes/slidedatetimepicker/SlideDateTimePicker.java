@@ -7,7 +7,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 /**
- * Interface for the client to create a new SlideDateTimePicker.
+ * <p>This class contains methods for the library client to create
+ * a new {@code SlideDateTimePicker}.</p>
+ *
+ * <p>It also implements a Builder API that offers more convenient
+ * object creation.</p>
  *
  * @author jjobes
  *
@@ -28,10 +32,10 @@ public class SlideDateTimePicker
     private int mIndicatorColor;
 
     /**
-     * Creates a new instance of SlideDateTimePicker.
+     * Creates a new instance of {@code SlideDateTimePicker}.
      *
-     * @param fm  The FragmentManager from the calling activity that is used
-     *            internally to show the DialogFragment.
+     * @param fm  The {@code FragmentManager} from the calling activity that is used
+     *            internally to show the {@code DialogFragment}.
      */
     public SlideDateTimePicker(FragmentManager fm)
     {
@@ -50,9 +54,10 @@ public class SlideDateTimePicker
     }
 
     /**
-     * Sets the listener that is used to inform the client when
-     * the user selects a new date and time. This must be called
-     * before show().
+     * <p>Sets the listener that is used to inform the client when
+     * the user selects a new date and time.</p>
+     *
+     * <p>This must be called before {@link #show()}.</p>
      *
      * @param listener
      */
@@ -62,11 +67,13 @@ public class SlideDateTimePicker
     }
 
     /**
-     * Sets the initial date and time to display in the date
-     * and time pickers. If this method is not called, the
-     * current date and time will be displayed.
+     * <p>Sets the initial date and time to display in the date
+     * and time pickers.</p>
      *
-     * @param initialDate  the date object used to determine the
+     * <p>If this method is not called, the current date and time
+     * will be displayed.</p>
+     *
+     * @param initialDate  the {@code Date} object used to determine the
      *                     initial date and time to display
      */
     public void setInitialDate(Date initialDate)
@@ -75,8 +82,9 @@ public class SlideDateTimePicker
     }
 
     /**
-     * Sets the minimum date that the DatePicker should show.
-     * Should be called before show().
+     * <p>Sets the minimum date that the DatePicker should show.</p>
+     *
+     * <p>This must be called before {@link #show()}.</p>
      *
      * @param minDate  the minimum selectable date for the DatePicker
      */
@@ -86,8 +94,9 @@ public class SlideDateTimePicker
     }
 
     /**
-     * Sets the maximum date that the DatePicker should show.
-     * Should be called before show().
+     * <p>Sets the maximum date that the DatePicker should show.</p>
+     *
+     * <p>This must be called before {@link #show()}.</p>
      *
      * @param maxDate  the maximum selectable date for the DatePicker
      */
@@ -121,8 +130,8 @@ public class SlideDateTimePicker
      * Sets the theme of the dialog. If no theme is specified, it
      * defaults to holo light.
      *
-     * @param theme  SlideDateTimePicker.HOLO_DARK for a dark theme, or
-     *               SlideDateTimePicker.HOLO_LIGHT for a light theme
+     * @param theme  {@code SlideDateTimePicker.HOLO_DARK} for a dark theme, or
+     *               {@code SlideDateTimePicker.HOLO_LIGHT} for a light theme
      */
     public void setTheme(int theme)
     {
@@ -140,8 +149,8 @@ public class SlideDateTimePicker
     }
 
     /**
-     * Shows the SlideDateTimeDialogFragment dialog. Make sure to
-     * call setListener() before calling this.
+     * Shows the dialog to the user. Make sure to call
+     * {@link #setListener()} before calling this.
      */
     public void show()
     {
@@ -172,7 +181,8 @@ public class SlideDateTimePicker
     }
 
     /*
-     * The following implements the builder API.
+     * The following implements the builder API to simplify
+     * creation and display of the dialog.
      */
     public static class Builder
     {
@@ -194,30 +204,72 @@ public class SlideDateTimePicker
             this.fm = fm;
         }
 
+        /**
+         * <p>Sets the listener that is used to inform the client when
+         * the user selects a new date and time.</p>
+         *
+         * <p>This must be called before {@link #show()}.</p>
+         *
+         * @param listener
+         */
         public Builder listener(SlideDateTimeListener listener)
         {
             this.listener = listener;
             return this;
         }
 
+        /**
+         * <p>Sets the initial date and time to display in the date
+         * and time pickers.</p>
+         *
+         * <p>If this method is not called, the current date and time
+         * will be displayed.</p>
+         *
+         * @param initialDate  the {@code Date} object used to determine the
+         *                     initial date and time to display
+         */
         public Builder initialDate(Date initialDate)
         {
             this.initialDate = initialDate;
             return this;
         }
 
+        /**
+         * <p>Sets the minimum date that the DatePicker should show.</p>
+         *
+         * <p>This must be called before {@link #show()}.</p>
+         *
+         * @param minDate  the minimum selectable date for the DatePicker
+         */
         public Builder minDate(Date minDate)
         {
             this.minDate = minDate;
             return this;
         }
 
+        /**
+         * <p>Sets the maximum date that the DatePicker should show.</p>
+         *
+         * <p>This must be called before {@link #show()}.</p>
+         *
+         * @param maxDate  the maximum selectable date for the DatePicker
+         */
         public Builder maxDate(Date maxDate)
         {
             this.maxDate = maxDate;
             return this;
         }
 
+        /**
+         * Sets whether the TimePicker is in 12 hour (AM/PM) or 24 hour
+         * mode. If this method is not called, the device's default
+         * time format is used. This effects both the time displayed
+         * in the tab and the TimePicker. Should be called before show().
+         *
+         * @param is24HourTime  <tt>true</tt> to force 24 hour time format,
+         *                      <tt>false</tt> to force 12 hour (AM/PM) time
+         *                      format.
+         */
         public Builder is24HourTime(boolean is24HourTime)
         {
             this.isClientSpecified24HourTime = true;
@@ -225,18 +277,38 @@ public class SlideDateTimePicker
             return this;
         }
 
+        /**
+         * Sets the theme of the dialog. If no theme is specified, it
+         * defaults to holo light.
+         *
+         * @param theme  {@code SlideDateTimePicker.HOLO_DARK} for a dark theme, or
+         *               {@code SlideDateTimePicker.HOLO_LIGHT} for a light theme
+         */
         public Builder theme(int theme)
         {
             this.theme = theme;
             return this;
         }
 
+        /**
+         * Sets the color of the underline for the currently selected tab.
+         *
+         * @param indicatorColor  the color of the selected tab's underline
+         */
         public Builder indicatorColor(int indicatorColor)
         {
             this.indicatorColor = indicatorColor;
             return this;
         }
 
+        /**
+         * <p>Build and return a {@code SlideDateTimePicker} object based on the previously
+         * supplied parameters.</p>
+         *
+         * <p>You should call {@link #show()} immediately after this.</p>
+         *
+         * @return
+         */
         public SlideDateTimePicker build()
         {
             SlideDateTimePicker picker = new SlideDateTimePicker(fm);

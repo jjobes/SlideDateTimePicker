@@ -42,7 +42,8 @@ public class TimeFragment extends Fragment
     }
 
     /**
-     * Cast the reference to SlideDateTimeDialogFragment to a TimeChangedListener.
+     * Cast the reference to {@link SlideDateTimeDialogFragment} to a
+     * {@link TimeChangedListener}.
      */
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -63,7 +64,7 @@ public class TimeFragment extends Fragment
     /**
      * Return an instance of TimeFragment with its bundle filled with the
      * constructor arguments. The values in the bundle are retrieved in
-     * onCreateView() below to properly initialize the TimePicker.
+     * {@link #onCreateView()} below to properly initialize the TimePicker.
      *
      * @param theme
      * @param hour

@@ -14,7 +14,7 @@ import android.widget.DatePicker.OnDateChangedListener;
 
 /**
  * The fragment for the first page in the ViewPager that holds
- * the DatePicker.
+ * the {@link CustomDatePicker}.
  *
  * @author jjobes
  *
@@ -32,7 +32,7 @@ public class DateFragment extends Fragment
     }
 
     private DateChangedListener mCallback;
-    private DatePicker mDatePicker;
+    private CustomDatePicker mDatePicker;
 
     public DateFragment()
     {
@@ -40,7 +40,8 @@ public class DateFragment extends Fragment
     }
 
     /**
-     * Cast the reference to SlideDateTimeDialogFragment to a DateChangedListener.
+     * Cast the reference to {@link SlideDateTimeDialogFragment}
+     * to a {@link DateChangedListener}.
      */
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -61,7 +62,7 @@ public class DateFragment extends Fragment
     /**
      * Return an instance of DateFragment with its bundle filled with the
      * constructor arguments. The values in the bundle are retrieved in
-     * onCreateView() below to properly initialize the DatePicker.
+     * {@link #onCreateView()} below to properly initialize the DatePicker.
      *
      * @param theme
      * @param year
@@ -118,7 +119,7 @@ public class DateFragment extends Fragment
 
         View v = localInflater.inflate(R.layout.fragment_date, container, false);
 
-        mDatePicker = (DatePicker) v.findViewById(R.id.datePicker);
+        mDatePicker = (CustomDatePicker) v.findViewById(R.id.datePicker);
         // block keyboard popping up on touch
         mDatePicker.setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
         mDatePicker.init(

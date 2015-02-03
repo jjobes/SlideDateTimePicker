@@ -22,9 +22,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 /**
- * The DialogFragment that contains the SlidingTabLayout and CustomViewPager.
- * The CustomViewPager contains the DateFragment and TimeFragment.
- * This DialogFragment is managed by SlideDateTimePicker.
+ * <p>The {@code DialogFragment} that contains the {@link SlidingTabLayout}
+ * and {@link CustomViewPager}.</p>
+ *
+ * <p>The {@code CustomViewPager} contains the {@link DateFragment} and {@link TimeFragment}.</p>
+ *
+ * <p>This {@code DialogFragment} is managed by {@link SlideDateTimePicker}.</p>
  *
  * @author jjobes
  *
@@ -63,8 +66,10 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
     }
 
     /**
-     * Return a new instance of SlideDateTimeDialogFragment with its bundle
-     * filled with the initial date/time.
+     * <p>Return a new instance of {@code SlideDateTimeDialogFragment} with its bundle
+     * filled with the incoming arguments.</p>
+     *
+     * <p>Called by {@link SlideDateTimePicker#show()}.</p>
      *
      * @param listener
      * @param initialDate
@@ -268,10 +273,13 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
     }
 
     /**
-     *  The callback used by the DatePicker to update mCalendar as the user
-     *  changes the date. Each time this is called, we also update the text
-     *  on the date tab to reflect the date the user has currenly selected.
-     *  Implements the DateFragment.DateChangedListener interface.
+     * <p>The callback used by the DatePicker to update {@code mCalendar} as
+     * the user changes the date. Each time this is called, we also update
+     * the text on the date tab to reflect the date the user has currenly
+     * selected.</p>
+     *
+     * <p>Implements the {@link DateFragment.DateChangedListener}
+     * interface.</p>
      */
     @Override
     public void onDateChanged(int year, int month, int day)
@@ -282,10 +290,13 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
     }
 
     /**
-     *  The callback used by the TimePicker to update mCalendar as the user
-     *  changes the time. Each time this is called, we also update the text
-     *  on the time tab to reflect the time the user has currenly selected.
-     *  Implements the TimeFragment.TimeChangedListener interface.
+     * <p>The callback used by the TimePicker to update {@code mCalendar} as
+     * the user changes the time. Each time this is called, we also update
+     * the text on the time tab to reflect the time the user has currenly
+     * selected.</p>
+     *
+     * <p>Implements the {@link TimeFragment.TimeChangedListener}
+     * interface.</p>
      */
     @Override
     public void onTimeChanged(int hour, int minute)
@@ -328,9 +339,11 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
     }
 
     /**
-     * Called when the user clicks outside the dialog or presses the Back
-     * button.  Actual Cancel button clicks are handled by mCancelButton's
-     * event handler.
+     * <p>Called when the user clicks outside the dialog or presses the <b>Back</b>
+     * button.</p>
+     *
+     * <p><b>Note:</b> Actual <b>Cancel</b> button clicks are handled by {@code mCancelButton}'s
+     * event handler.</p>
      */
     @Override
     public void onCancel(DialogInterface dialog)
