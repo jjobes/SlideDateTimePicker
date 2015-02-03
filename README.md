@@ -1,7 +1,3 @@
-Contributions Requested
-=======================
-There is a strange problem that needs to be resolved regarding touch event handling. When the dialog is displayed and the TimePicker is chosen, then you rotate the device, when you spin the TimePicker spinners, those events are getting routed to the DatePicker and vice versa. Please see [CustomViewPager](https://github.com/jjobes/SlideDateTimePicker/blob/master/SlideDateTimePicker/src/com/github/jjobes/slidedatetimepicker/CustomViewPager.java) 's `dispatchTouchEvent()` for the problem code. `dispatchTouchEvent()` is where I am trying to allow the ViewPager to swipe horizontally, while at the same time allowing the Date or TimePicker to swipe vertically. I believe the correct solutions may involve not overriding `dispatchTouchEvent()`, but instead overriding `onInterceptTouchEvent()` and `onTouchEvent()`, but I haven't been able to get that to work either.
-
 SlideDateTimePicker
 ===================
 
