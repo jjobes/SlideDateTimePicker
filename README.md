@@ -106,6 +106,12 @@ Contributing
 ============
 Contributions are welcome! Please open up an issue in GitHub or submit a PR.
 
+Changelog
+=========
+### v1.0.0
+
+* First release
+
 License
 =======
 Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
