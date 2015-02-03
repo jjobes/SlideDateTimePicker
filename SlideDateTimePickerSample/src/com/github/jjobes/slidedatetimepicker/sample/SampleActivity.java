@@ -60,13 +60,13 @@ public class SampleActivity extends ActionBarActivity
             public void onClick(View v)
             {
                 new SlideDateTimePicker.Builder(getSupportFragmentManager())
-                    .listener(listener)
-                    .initialDate(new Date())
-                    //.minDate(minDate)
-                    //.maxDate(maxDate)
-                    //.is24HourTime(true)
-                    .theme(SlideDateTimePicker.HOLO_LIGHT)
-                    .indicatorColor(Color.parseColor("#608393"))
+                    .setListener(listener)
+                    .setInitialDate(new Date())
+                    //.setMinDate(minDate)
+                    //.setMaxDate(maxDate)
+                    //.setIs24HourTime(true)
+                    .setTheme(SlideDateTimePicker.HOLO_LIGHT)
+                    .setIndicatorColor(Color.parseColor("#608393"))
                     .build()
                     .show();
             }

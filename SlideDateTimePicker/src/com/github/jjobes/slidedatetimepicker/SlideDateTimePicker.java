@@ -111,13 +111,18 @@ public class SlideDateTimePicker
     }
 
     /**
-     * Sets whether the TimePicker is in 12 hour (AM/PM) or 24 hour
-     * mode. If this method is not called, the device's default
-     * time format is used. This effects both the time displayed
-     * in the tab and the TimePicker. Should be called before show().
+     * <p>Sets whether the TimePicker displays its time in 12-hour
+     * (AM/PM) or 24-hour format.</p>
      *
-     * @param is24HourTime  <tt>true</tt> to force 24 hour time format,
-     *                      <tt>false</tt> to force 12 hour (AM/PM) time
+     * <p>If this method is not called, the device's default time
+     * format is used.</p>
+     *
+     * <p>This also affects the time displayed in the tab.</p>
+     *
+     * <p>Must be called before {@link #show()}.</p>
+     *
+     * @param is24HourTime  <tt>true</tt> to force 24-hour time format,
+     *                      <tt>false</tt> to force 12-hour (AM/PM) time
      *                      format.
      */
     public void setIs24HourTime(boolean is24HourTime)
@@ -205,72 +210,45 @@ public class SlideDateTimePicker
         }
 
         /**
-         * <p>Sets the listener that is used to inform the client when
-         * the user selects a new date and time.</p>
-         *
-         * <p>This must be called before {@link #show()}.</p>
-         *
-         * @param listener
+         * @see SlideDateTimePicker#setListener(SlideDateTimeListener)
          */
-        public Builder listener(SlideDateTimeListener listener)
+        public Builder setListener(SlideDateTimeListener listener)
         {
             this.listener = listener;
             return this;
         }
 
         /**
-         * <p>Sets the initial date and time to display in the date
-         * and time pickers.</p>
-         *
-         * <p>If this method is not called, the current date and time
-         * will be displayed.</p>
-         *
-         * @param initialDate  the {@code Date} object used to determine the
-         *                     initial date and time to display
+         * @see SlideDateTimePicker#setInitialDate(Date)
          */
-        public Builder initialDate(Date initialDate)
+        public Builder setInitialDate(Date initialDate)
         {
             this.initialDate = initialDate;
             return this;
         }
 
         /**
-         * <p>Sets the minimum date that the DatePicker should show.</p>
-         *
-         * <p>This must be called before {@link #show()}.</p>
-         *
-         * @param minDate  the minimum selectable date for the DatePicker
+         * @see SlideDateTimePicker#setMinDate(Date)
          */
-        public Builder minDate(Date minDate)
+        public Builder setMinDate(Date minDate)
         {
             this.minDate = minDate;
             return this;
         }
 
         /**
-         * <p>Sets the maximum date that the DatePicker should show.</p>
-         *
-         * <p>This must be called before {@link #show()}.</p>
-         *
-         * @param maxDate  the maximum selectable date for the DatePicker
+         * @see SlideDateTimePicker#setMaxDate(Date)
          */
-        public Builder maxDate(Date maxDate)
+        public Builder setMaxDate(Date maxDate)
         {
             this.maxDate = maxDate;
             return this;
         }
 
         /**
-         * Sets whether the TimePicker is in 12 hour (AM/PM) or 24 hour
-         * mode. If this method is not called, the device's default
-         * time format is used. This effects both the time displayed
-         * in the tab and the TimePicker. Should be called before show().
-         *
-         * @param is24HourTime  <tt>true</tt> to force 24 hour time format,
-         *                      <tt>false</tt> to force 12 hour (AM/PM) time
-         *                      format.
+         * @see SlideDateTimePicker#setIs24HourTime(boolean)
          */
-        public Builder is24HourTime(boolean is24HourTime)
+        public Builder setIs24HourTime(boolean is24HourTime)
         {
             this.isClientSpecified24HourTime = true;
             this.is24HourTime = is24HourTime;
@@ -278,24 +256,18 @@ public class SlideDateTimePicker
         }
 
         /**
-         * Sets the theme of the dialog. If no theme is specified, it
-         * defaults to holo light.
-         *
-         * @param theme  {@code SlideDateTimePicker.HOLO_DARK} for a dark theme, or
-         *               {@code SlideDateTimePicker.HOLO_LIGHT} for a light theme
+         * @see SlideDateTimePicker#setTheme(int)
          */
-        public Builder theme(int theme)
+        public Builder setTheme(int theme)
         {
             this.theme = theme;
             return this;
         }
 
         /**
-         * Sets the color of the underline for the currently selected tab.
-         *
-         * @param indicatorColor  the color of the selected tab's underline
+         * @see SlideDateTimePicker#setIndicatorColor(int)
          */
-        public Builder indicatorColor(int indicatorColor)
+        public Builder setIndicatorColor(int indicatorColor)
         {
             this.indicatorColor = indicatorColor;
             return this;
