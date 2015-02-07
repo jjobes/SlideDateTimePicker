@@ -106,7 +106,7 @@ You can also set a custom color for the horizontal divider lines in the DatePick
 
 Contributing
 ============
-Contributions are welcome! Please open up an issue in GitHub or submit a PR.
+Contributions are welcome. Please open up an issue in GitHub or submit a PR.
 
 Changelog
 =========
@@ -124,7 +124,7 @@ License
 =======
 Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 
-Please see [LICENSE](https://github.com/jjobes/SlideDateTimePicker/blob/master/LICENSE)
+SlidingTabLayout.java and SlidingTabStrip.java are Copyright (C) 2013 The Android Open Source Project and are licensed under the Apache License, Version 2.0
 
 Acknowledgements
 ================
