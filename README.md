@@ -61,7 +61,7 @@ new SlideDateTimePicker.Builder(getSupportFragmentManager())
     .show();
 ```
 
-Note that the `Date` object that you pass in to `.initialDate()` should contain both the date and time that you wish to initially display.
+Note that the `Date` object that you pass in to `.setInitialDate()` should contain both the date and time that you wish to initially display.
 
 **To set the minimum date to display:**
 
