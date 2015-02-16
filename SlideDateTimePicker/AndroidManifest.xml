@@ -3,7 +3,7 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.github.jjobes.slidedatetimepicker"
-    android:versionCode="1"
+    android:versionCode="2"
     android:versionName="1.0.1" >
 
     <uses-sdk
