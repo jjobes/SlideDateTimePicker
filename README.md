@@ -12,17 +12,14 @@ Setup
 =====
 
 **Eclipse/ADT**:
+
 From your main project, simply reference the SlideDateTimePicker library:
 
-Right click on your project name and select Properties.
-
-Select Android from the left column.
-
-Click Add.
-
-Select SlideDateTimePicker.
-
-Click Apply and then OK.
+1. Right click on your project name and select Properties.
+2. Select Android from the left column.
+3. Click Add.
+4. Select SlideDateTimePicker.
+5. Click Apply and then OK.
 
 **Android Studio**:
 Coming soon.
