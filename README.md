@@ -27,6 +27,30 @@ Click Apply and then OK.
 **Android Studio**:
 Coming soon.
 
+
+### Gradle build
+
+To install the sample application to your device run the following task:
+
+```
+$ ./gradlew installDebug
+```
+
+To deploy the library to your local Maven repository run the following task:
+
+```
+$ ./gradlew install
+```
+
+Then, to use the library in your project add the following to your `build.gradle`:
+
+```groovy
+dependencies {
+    compile 'com.github.jjobes.slidedatetimepicker'
+}
+```
+
+
 How to Use
 ==========
 (See [SampleActivity](https://github.com/jjobes/SlideDateTimePicker/blob/master/SlideDateTimePickerSample/src/com/github/jjobes/slidedatetimepicker/sample/SampleActivity.java) for a more complete example)
