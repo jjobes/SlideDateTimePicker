@@ -11,18 +11,13 @@ SlideDateTimePicker is an Android library that displays a single DialogFragment 
 Setup
 =====
 
-**Eclipse/ADT**:
+To add this library to your project, add the following to your `build.gradle`:
 
-From your main project, simply reference the SlideDateTimePicker library:
-
-1. Right click on your project name and select Properties.
-2. Select Android from the left column.
-3. Click Add.
-4. Select SlideDateTimePicker.
-5. Click Apply and then OK.
-
-**Android Studio**:
-Coming soon.
+```groovy
+dependencies {
+    compile 'com.github.jjobes.slidedatetimepicker'
+}
+```
 
 How to Use
 ==========
@@ -30,7 +25,7 @@ How to Use
 
 First create a listener object:
 
-``` java
+```java
 private SlideDateTimeListener listener = new SlideDateTimeListener() {
 
     @Override
@@ -50,7 +45,7 @@ private SlideDateTimeListener listener = new SlideDateTimeListener() {
 
 Then pass the listener into the builder and show the dialog:
 
-``` java
+```java
 new SlideDateTimePicker.Builder(getSupportFragmentManager())
     .setListener(listener)
     .setInitialDate(new Date())
@@ -62,12 +57,12 @@ Note that the `Date` object that you pass in to `.setInitialDate()` should conta
 
 **To set the minimum date to display:**
 
-``` java
+```java
 .setMinDate(date)
 ```
 
 **To set the maximum date to display:**
-``` java
+```java
 .setMaxDate(date)
 ```
 
@@ -75,26 +70,26 @@ The default time format is the current device's default, but you can force a 24-
 
 **To force 24-hour time:**
 
-``` java
+```java
 .setIs24HourTime(true)
 ```
 
 **To force 12-hour time:**
-``` java
+```java
 .setIs24HourTime(false)
 ```
 
 **The default theme is Holo Light, but you can specify either Holo Light or Dark explicitly:**
-``` java
+```java
 .setTheme(SlideDateTimePicker.HOLO_LIGHT)
 ```
 or
-``` java
+```java
 .setTheme(SlideDateTimePicker.HOLO_DARK)
 ```
 
 **To specify the color for the sliding tab underline (indicator):**
-``` java
+```java
 .setIndicatorColor(Color.parseColor("#FF0000"))
 ```
 
@@ -111,6 +106,9 @@ Contributions are welcome. Please open up an issue in GitHub or submit a PR.
 
 Changelog
 =========
+### v1.0.2
+
+* Changed to Android Studio / Gradle Project
 
 ### v1.0.1
 
@@ -125,7 +123,12 @@ License
 =======
 Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 
-SlidingTabLayout.java and SlidingTabStrip.java are Copyright (C) 2013 The Android Open Source Project and are licensed under the Apache License, Version 2.0
+The following files:
+
+* SlidingTabLayout.java
+* SlidingTabStrip.java 
+
+are Copyright (C) 2013 The Android Open Source Project and are licensed under the Apache License, Version 2.0
 
 Acknowledgements
 ================
