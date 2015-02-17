@@ -15,7 +15,7 @@ To add this library to your project, add the following to your `build.gradle`:
 
 ```groovy
 dependencies {
-    compile 'com.github.jjobes.slidedatetimepicker'
+    compile project(':slideDateTimePicker')
 }
 ```
 
