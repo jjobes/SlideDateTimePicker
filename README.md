@@ -106,6 +106,10 @@ Contributions are welcome. Please open up an issue in GitHub or submit a PR.
 
 Changelog
 =========
+### v1.0.3
+
+* Update build.gradle
+
 ### v1.0.2
 
 * Changed to Android Studio / Gradle Project
