@@ -48,24 +48,26 @@ public class CustomViewPager extends ViewPager
      * doesn't seem to be recognized and the ViewPager will fill the
      * height of the screen regardless. We'll force the ViewPager to
      * have the same height as its immediate child.
+     *
+     * Thanks to alexrainman for the bugfix!
      */
     @Override
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int height = 0;
 
-        if (getChildCount() > 0)
+        for (int i = 0; i < getChildCount(); i++)
         {
-            View childView = getChildAt(0);
-
-            if (childView != null)
-            {
-                childView.measure(widthMeasureSpec, heightMeasureSpec);
-                int h = childView.getMeasuredHeight();
-                setMeasuredDimension(getMeasuredWidth(), h);
-                getLayoutParams().height = h;
-            }
+            View child = getChildAt(i);
+            child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+            int h = child.getMeasuredHeight();
+            if (h > height)
+                height = h;
         }
+
+        heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         mDatePicker = (DatePicker) findViewById(R.id.datePicker);
         mTimePicker = (TimePicker) findViewById(R.id.timePicker);
