@@ -21,7 +21,7 @@ dependencies {
 
 How to Use
 ==========
-(See [SampleActivity](https://github.com/jjobes/SlideDateTimePicker/blob/master/SlideDateTimePickerSample/src/com/github/jjobes/slidedatetimepicker/sample/SampleActivity.java) for a more complete example)
+(See [SampleActivity](https://github.com/jjobes/SlideDateTimePicker/blob/master/slideDateTimePickerSample/src/main/java/com/github/jjobes/slidedatetimepicker/sample/SampleActivity.java) for a more complete example)
 
 First create a listener object:
 
