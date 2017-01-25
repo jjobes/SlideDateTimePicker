@@ -19,6 +19,13 @@ dependencies {
 }
 ```
 
+To use it in another project, you need to specify the relative path to the library-module in your apps `settings.gradle`:
+```groovy
+include ':app', ':slideDateTimePicker'
+
+project(':slideDateTimePicker').projectDir = new File(settingsDir, '../SlideDateTimePicker/slideDateTimePicker')
+```
+
 How to Use
 ==========
 (See [SampleActivity](https://github.com/jjobes/SlideDateTimePicker/blob/master/slideDateTimePickerSample/src/main/java/com/github/jjobes/slidedatetimepicker/sample/SampleActivity.java) for a more complete example)
