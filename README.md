@@ -19,6 +19,14 @@ dependencies {
 }
 ```
 
+or ($version_code can be "+" for the latest version)
+
+```groovy
+dependencies {
+    compile 'com.github.jjobes:slideDateTimePicker:$version_code'
+}
+```
+
 How to Use
 ==========
 (See [SampleActivity](https://github.com/jjobes/SlideDateTimePicker/blob/master/slideDateTimePickerSample/src/main/java/com/github/jjobes/slidedatetimepicker/sample/SampleActivity.java) for a more complete example)
