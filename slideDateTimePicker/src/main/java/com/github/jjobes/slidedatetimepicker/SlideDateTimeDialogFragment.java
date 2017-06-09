@@ -54,6 +54,8 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
     private Date mMaxDate;
     private boolean mIsClientSpecified24HourTime;
     private boolean mIs24HourTime;
+    private boolean mDefaultDateSelector;
+
     private Calendar mCalendar;
     private int mDateFlags =
         DateUtils.FORMAT_SHOW_WEEKDAY |
@@ -77,13 +79,14 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
      * @param maxDate
      * @param isClientSpecified24HourTime
      * @param is24HourTime
+     * @param defaultDateSelctor
      * @param theme
      * @param indicatorColor
      * @return
      */
     public static SlideDateTimeDialogFragment newInstance(SlideDateTimeListener listener,
             Date initialDate, Date minDate, Date maxDate, boolean isClientSpecified24HourTime,
-            boolean is24HourTime, int theme, int indicatorColor)
+            boolean is24HourTime, boolean defaultDateSelctor, int theme, int indicatorColor)
     {
         mListener = listener;
 
@@ -97,6 +100,7 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
         bundle.putSerializable("maxDate", maxDate);
         bundle.putBoolean("isClientSpecified24HourTime", isClientSpecified24HourTime);
         bundle.putBoolean("is24HourTime", is24HourTime);
+        bundle.putBoolean("defaultDateSelector", defaultDateSelctor);
         bundle.putInt("theme", theme);
         bundle.putInt("indicatorColor", indicatorColor);
         dialogFragment.setArguments(bundle);
@@ -175,6 +179,7 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
         mMaxDate = (Date) args.getSerializable("maxDate");
         mIsClientSpecified24HourTime = args.getBoolean("isClientSpecified24HourTime");
         mIs24HourTime = args.getBoolean("is24HourTime");
+        mDefaultDateSelector = args.getBoolean("defaultDateSelector");
         mTheme = args.getInt("theme");
         mIndicatorColor = args.getInt("indicatorColor");
     }
@@ -219,7 +224,6 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
     {
         mViewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(mViewPagerAdapter);
-
         // Setting this custom layout for each tab ensures that the tabs will
         // fill all available horizontal space.
         mSlidingTabLayout.setCustomTabView(R.layout.custom_tab, R.id.tabText);
@@ -233,6 +237,13 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
 
         // Set initial time on time tab
         updateTimeTab();
+
+        //Set initial tab
+        updateViewPager();
+    }
+
+    private void updateViewPager() {
+        mViewPager.setCurrentItem((mDefaultDateSelector)?0:1);
     }
 
     private void initButtons()

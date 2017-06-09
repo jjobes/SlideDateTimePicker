@@ -30,6 +30,7 @@ public class SlideDateTimePicker
     private boolean mIs24HourTime;
     private int mTheme;
     private int mIndicatorColor;
+    private boolean mDefaultDateSelector;
 
     /**
      * Creates a new instance of {@code SlideDateTimePicker}.
@@ -155,7 +156,7 @@ public class SlideDateTimePicker
 
     /**
      * Shows the dialog to the user. Make sure to call
-     * {@link #setListener()} before calling this.
+     * {@link #setListener(SlideDateTimeListener)} ()} before calling this.
      */
     public void show()
     {
@@ -178,11 +179,21 @@ public class SlideDateTimePicker
                         mMaxDate,
                         mIsClientSpecified24HourTime,
                         mIs24HourTime,
+                        mDefaultDateSelector,
                         mTheme,
                         mIndicatorColor);
 
         dialogFragment.show(mFragmentManager,
                 SlideDateTimeDialogFragment.TAG_SLIDE_DATE_TIME_DIALOG_FRAGMENT);
+    }
+
+    /**
+     *
+     * @param defaultDateSelector if true or unset default to date tab otherwise show time tab on initial load
+     */
+
+    public void setDefaultDateSelector(boolean defaultDateSelector) {
+        this.mDefaultDateSelector = defaultDateSelector;
     }
 
     /*
@@ -201,6 +212,7 @@ public class SlideDateTimePicker
         private Date maxDate;
         private boolean isClientSpecified24HourTime;
         private boolean is24HourTime;
+        private boolean defaultSelectorToDate = true;
         private int theme;
         private int indicatorColor;
 
@@ -274,15 +286,25 @@ public class SlideDateTimePicker
         }
 
         /**
+         *
+         * @see SlideDateTimePicker#setDefaultDateSelector(boolean)
+         *
+         */
+
+        public Builder setDefaultSelector(boolean isDateSelector){
+            this.defaultSelectorToDate = isDateSelector;
+            return this;
+        }
+
+        /**
          * <p>Build and return a {@code SlideDateTimePicker} object based on the previously
          * supplied parameters.</p>
-         *
+         * <p>
          * <p>You should call {@link #show()} immediately after this.</p>
          *
          * @return
          */
-        public SlideDateTimePicker build()
-        {
+        public SlideDateTimePicker build() {
             SlideDateTimePicker picker = new SlideDateTimePicker(fm);
             picker.setListener(listener);
             picker.setInitialDate(initialDate);
@@ -291,6 +313,7 @@ public class SlideDateTimePicker
             picker.setIsClientSpecified24HourTime(isClientSpecified24HourTime);
             picker.setIs24HourTime(is24HourTime);
             picker.setTheme(theme);
+            picker.setDefaultDateSelector(defaultSelectorToDate);
             picker.setIndicatorColor(indicatorColor);
 
             return picker;
