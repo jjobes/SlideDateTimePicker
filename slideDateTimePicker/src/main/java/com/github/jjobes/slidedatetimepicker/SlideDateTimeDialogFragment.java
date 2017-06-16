@@ -162,7 +162,7 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
         {
             getDialog().setDismissMessage(null);
         }
-
+        mListener = null;
         super.onDestroyView();
     }
 
