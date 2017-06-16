@@ -36,3 +36,7 @@ proguard-project.txt
 #.idea/workspace.xml - remove # and delete .idea if it better suits your needs.
 .gradle
 build/
+
+slideDateTimePicker/build.gradle
+
+*.gradle
