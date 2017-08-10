@@ -52,7 +52,7 @@ public class TimeFragment extends Fragment
 
         try
         {
-            mCallback = (TimeChangedListener) getTargetFragment();
+            mCallback = (TimeChangedListener) getParentFragment();
         }
         catch (ClassCastException e)
         {
@@ -141,7 +141,7 @@ public class TimeFragment extends Fragment
             // If the client does not specify a 24-hour time format, use the
             // device default.
             mTimePicker.setIs24HourView(DateFormat.is24HourFormat(
-                getTargetFragment().getActivity()));
+                getParentFragment().getActivity()));
         }
 
         mTimePicker.setCurrentHour(initialHour);
