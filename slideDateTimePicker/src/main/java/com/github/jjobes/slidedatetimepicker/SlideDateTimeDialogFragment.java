@@ -383,24 +383,22 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
             switch (position)
             {
             case 0:
-                DateFragment dateFragment = DateFragment.newInstance(
+                //dateFragment.setTargetFragment(SlideDateTimeDialogFragment.this, 100);
+                return DateFragment.newInstance(
                     mTheme,
                     mCalendar.get(Calendar.YEAR),
                     mCalendar.get(Calendar.MONTH),
                     mCalendar.get(Calendar.DAY_OF_MONTH),
                     mMinDate,
                     mMaxDate);
-                dateFragment.setTargetFragment(SlideDateTimeDialogFragment.this, 100);
-                return dateFragment;
             case 1:
-                TimeFragment timeFragment = TimeFragment.newInstance(
+                //timeFragment.setTargetFragment(SlideDateTimeDialogFragment.this, 200);
+                return TimeFragment.newInstance(
                     mTheme,
                     mCalendar.get(Calendar.HOUR_OF_DAY),
                     mCalendar.get(Calendar.MINUTE),
                     mIsClientSpecified24HourTime,
                     mIs24HourTime);
-                timeFragment.setTargetFragment(SlideDateTimeDialogFragment.this, 200);
-                return timeFragment;
             default:
                 return null;
             }
