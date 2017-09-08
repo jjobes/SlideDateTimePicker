@@ -66,7 +66,7 @@ public class SampleActivity extends FragmentActivity
                     //.setIs24HourTime(true)
                     //.setTheme(SlideDateTimePicker.HOLO_DARK)
                     //.setIndicatorColor(Color.parseColor("#990000"))
-                    //.setDefaultSelector(false)
+                    //.setDefaultSelector(SlideDateTimePicker.DefaultSelector.TIME)
                     .build()
                     .show();
             }
