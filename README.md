@@ -97,6 +97,10 @@ or
 ```java
 .setDefaultSelector(SlideDateTimePicker.DefaultSelector.TIME)
 ```
+or
+```
+.setDefaultSelector(SlideDateTimePicker.DefaultSelector.DATE)
+```
 
 **To specify the color of the horizontal divider lines in the DatePicker and TimePicker:**
 You can also set a custom color for the horizontal divider lines in the DatePicker and TimePicker, but for this you have to paste your own version of selection_divider.9.png into the the library's drawable-xxxx folders that has your desired color. To do this, open selection_divider.9.png in a graphics editor, change the color, then paste your new files into the drawable-xxxx folders.
