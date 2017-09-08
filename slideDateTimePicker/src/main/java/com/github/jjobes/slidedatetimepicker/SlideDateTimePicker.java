@@ -30,7 +30,7 @@ public class SlideDateTimePicker
     private boolean mIs24HourTime;
     private int mTheme;
     private int mIndicatorColor;
-    private boolean mDefaultDateSelector;
+    private SlideDateTimePicker.DefaultSelector mDefaultDateSelector;
 
     /**
      * Creates a new instance of {@code SlideDateTimePicker}.
@@ -192,8 +192,12 @@ public class SlideDateTimePicker
      * @param defaultDateSelector if true or unset default to date tab otherwise show time tab on initial load
      */
 
-    public void setDefaultDateSelector(boolean defaultDateSelector) {
+    public void setDefaultDateSelector(DefaultSelector defaultDateSelector) {
         this.mDefaultDateSelector = defaultDateSelector;
+    }
+
+    public enum DefaultSelector {
+        DATE, TIME
     }
 
     /*
@@ -212,7 +216,7 @@ public class SlideDateTimePicker
         private Date maxDate;
         private boolean isClientSpecified24HourTime;
         private boolean is24HourTime;
-        private boolean defaultSelectorToDate = true;
+        private DefaultSelector defaultSelectorToDate = DefaultSelector.DATE;
         private int theme;
         private int indicatorColor;
 
@@ -287,12 +291,12 @@ public class SlideDateTimePicker
 
         /**
          *
-         * @see SlideDateTimePicker#setDefaultDateSelector(boolean)
+         * @see SlideDateTimePicker#setDefaultDateSelector(DefaultSelector)
          *
          */
 
-        public Builder setDefaultSelector(boolean isDateSelector){
-            this.defaultSelectorToDate = isDateSelector;
+        public Builder setDefaultSelector(DefaultSelector defaultSelector){
+            this.defaultSelectorToDate = defaultSelector;
             return this;
         }
 
@@ -302,7 +306,7 @@ public class SlideDateTimePicker
          * <p>
          * <p>You should call {@link #show()} immediately after this.</p>
          *
-         * @return
+         * @return SlideDateTimePicker
          */
         public SlideDateTimePicker build() {
             SlideDateTimePicker picker = new SlideDateTimePicker(fm);
