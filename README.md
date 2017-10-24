@@ -3,6 +3,8 @@ SlideDateTimePicker
 
 [![AndroidLibs](https://img.shields.io/badge/AndroidLibs-SlideDateTimePicker-brightgreen.svg?style=flat)](https://android-libs.com/lib/slidedatetimepicker?utm_source=github-badge&utm_medium=github-badge&utm_campaign=github-badge)
 
+[![](https://jitpack.io/v/keremkusmezer/slidedatetimepicker.svg)](https://jitpack.io/#keremkusmezer/slidedatetimepicker)
+
 SlideDateTimePicker is an Android library that displays a single DialogFragment in which the user can select a date and a time. The user can swipe between the DatePicker and TimePicker, and the tab underline will gradually animate as the user swipes. The colors of the tab indicator and divider lines are customizable to fit your project's theme. Tested on Android 4.0+.
 
 <img src="https://raw.github.com/jjobes/SlideDateTimePicker/master/screenshots/1.png" width="270" style="margin-right:10px;">
