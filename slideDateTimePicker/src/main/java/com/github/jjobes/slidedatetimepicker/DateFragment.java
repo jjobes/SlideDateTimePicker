@@ -50,7 +50,7 @@ public class DateFragment extends Fragment
 
         try
         {
-            mCallback = (DateChangedListener) getTargetFragment();
+            mCallback = (DateChangedListener) getParentFragment();
         }
         catch (ClassCastException e)
         {
@@ -62,7 +62,7 @@ public class DateFragment extends Fragment
     /**
      * Return an instance of DateFragment with its bundle filled with the
      * constructor arguments. The values in the bundle are retrieved in
-     * {@link #onCreateView()} below to properly initialize the DatePicker.
+     * {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)} below to properly initialize the DatePicker.
      *
      * @param theme
      * @param year
