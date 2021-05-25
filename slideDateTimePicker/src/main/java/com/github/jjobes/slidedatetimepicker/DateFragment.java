@@ -118,20 +118,20 @@ public class DateFragment extends Fragment
 
         View v = localInflater.inflate(R.layout.fragment_date, container, false);
 
-        CustomDatePicker mDatePicker = v.findViewById(R.id.datePicker);
+        DatePicker datePicker = v.findViewById(R.id.datePicker);
         // block keyboard popping up on touch
-        mDatePicker.setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
-        mDatePicker.init(
+        datePicker.setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
+        datePicker.init(
             initialYear,
             initialMonth,
             initialDay,
                 (view, year, monthOfYear, dayOfMonth) -> mCallback.onDateChanged(year, monthOfYear, dayOfMonth));
 
         if (minDate != null)
-            mDatePicker.setMinDate(minDate.getTime());
+            datePicker.setMinDate(minDate.getTime());
 
         if (maxDate != null)
-            mDatePicker.setMaxDate(maxDate.getTime());
+            datePicker.setMaxDate(maxDate.getTime());
 
         return v;
     }
