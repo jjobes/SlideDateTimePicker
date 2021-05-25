@@ -3,7 +3,6 @@ package com.github.jjobes.slidedatetimepicker;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -11,8 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.NumberPicker;
-import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.TimePicker;
+
+import androidx.fragment.app.Fragment;
+
+import java.util.Objects;
 
 /**
  * The fragment for the second page in the ViewPager that holds
@@ -52,7 +54,7 @@ public class TimeFragment extends Fragment
 
         try
         {
-            mCallback = (TimeChangedListener) getTargetFragment();
+            mCallback = (TimeChangedListener) getParentFragment();
         }
         catch (ClassCastException e)
         {
@@ -64,7 +66,7 @@ public class TimeFragment extends Fragment
     /**
      * Return an instance of TimeFragment with its bundle filled with the
      * constructor arguments. The values in the bundle are retrieved in
-     * {@link #onCreateView()} below to properly initialize the TimePicker.
+     * onCreateView below to properly initialize the TimePicker.
      *
      * @param theme
      * @param hour
@@ -73,7 +75,7 @@ public class TimeFragment extends Fragment
      * @param is24HourTime
      * @return
      */
-    public static final TimeFragment newInstance(int theme, int hour, int minute,
+    public static TimeFragment newInstance(int theme, int hour, int minute,
         boolean isClientSpecified24HourTime, boolean is24HourTime)
     {
         TimeFragment f = new TimeFragment();
@@ -118,17 +120,10 @@ public class TimeFragment extends Fragment
 
         View v = localInflater.inflate(R.layout.fragment_time, container, false);
 
-        mTimePicker = (TimePicker) v.findViewById(R.id.timePicker);
+        mTimePicker = v.findViewById(R.id.timePicker);
         // block keyboard popping up on touch
         mTimePicker.setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
-        mTimePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-
-            @Override
-            public void onTimeChanged(TimePicker view, int hourOfDay, int minute)
-            {
-                mCallback.onTimeChanged(hourOfDay, minute);
-            }
-        });
+        mTimePicker.setOnTimeChangedListener((view, hourOfDay, minute) -> mCallback.onTimeChanged(hourOfDay, minute));
 
         // If the client specifies a 24-hour time format, set it on
         // the TimePicker.
@@ -141,7 +136,7 @@ public class TimeFragment extends Fragment
             // If the client does not specify a 24-hour time format, use the
             // device default.
             mTimePicker.setIs24HourView(DateFormat.is24HourFormat(
-                getTargetFragment().getActivity()));
+                Objects.requireNonNull(getParentFragment()).getActivity()));
         }
 
         mTimePicker.setCurrentHour(initialHour);
@@ -174,26 +169,21 @@ public class TimeFragment extends Fragment
 
         if (amPmView instanceof NumberPicker)
         {
-            ((NumberPicker) amPmView).setOnValueChangedListener(new OnValueChangeListener() {
-
-                @Override
-                public void onValueChange(NumberPicker picker, int oldVal, int newVal)
+            ((NumberPicker) amPmView).setOnValueChangedListener((picker, oldVal, newVal) -> {
+                if (picker.getValue() == 1)  // PM
                 {
-                    if (picker.getValue() == 1)  // PM
-                    {
-                        if (mTimePicker.getCurrentHour() < 12)
-                            mTimePicker.setCurrentHour(mTimePicker.getCurrentHour() + 12);
-                    }
-                    else  // AM
-                    {
-                        if (mTimePicker.getCurrentHour() >= 12)
-                            mTimePicker.setCurrentHour(mTimePicker.getCurrentHour() - 12);
-                    }
-
-                    mCallback.onTimeChanged(
-                        mTimePicker.getCurrentHour(),
-                        mTimePicker.getCurrentMinute());
+                    if (mTimePicker.getCurrentHour() < 12)
+                        mTimePicker.setCurrentHour(mTimePicker.getCurrentHour() + 12);
                 }
+                else  // AM
+                {
+                    if (mTimePicker.getCurrentHour() >= 12)
+                        mTimePicker.setCurrentHour(mTimePicker.getCurrentHour() - 12);
+                }
+
+                mCallback.onTimeChanged(
+                    mTimePicker.getCurrentHour(),
+                    mTimePicker.getCurrentMinute());
             });
         }
     }

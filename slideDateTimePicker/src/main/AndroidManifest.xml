@@ -4,8 +4,4 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.github.jjobes.slidedatetimepicker" >
 
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="21" />
-
 </manifest>

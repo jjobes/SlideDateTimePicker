@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.github.jjobes.slidedatetimepicker.sample"
-        minSdkVersion 14
-        targetSdkVersion 25
+        minSdkVersion 24
+        targetSdkVersion 30
     }
 
     buildTypes {
@@ -19,6 +19,6 @@ android {
 }
 
 dependencies {
-    compile project(':slideDateTimePicker')
-    compile 'com.android.support:support-v4:25.1.0'
+    implementation project(':slideDateTimePicker')
+    implementation 'androidx.legacy:legacy-support-v13:1.0.0'
 }

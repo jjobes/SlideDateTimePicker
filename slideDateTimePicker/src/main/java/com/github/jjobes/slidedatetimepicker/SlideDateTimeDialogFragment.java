@@ -1,25 +1,25 @@
 package com.github.jjobes.slidedatetimepicker;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * <p>The {@code DialogFragment} that contains the {@link SlidingTabLayout}
@@ -41,7 +41,6 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
 
     private Context mContext;
     private CustomViewPager mViewPager;
-    private ViewPagerAdapter mViewPagerAdapter;
     private SlidingTabLayout mSlidingTabLayout;
     private View mButtonHorizontalDivider;
     private View mButtonVerticalDivider;
@@ -55,10 +54,6 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
     private boolean mIsClientSpecified24HourTime;
     private boolean mIs24HourTime;
     private Calendar mCalendar;
-    private int mDateFlags =
-        DateUtils.FORMAT_SHOW_WEEKDAY |
-        DateUtils.FORMAT_SHOW_DATE |
-        DateUtils.FORMAT_ABBREV_ALL;
 
     public SlideDateTimeDialogFragment()
     {
@@ -131,8 +126,6 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
             setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Dialog_NoActionBar);
             break;
         case SlideDateTimePicker.HOLO_LIGHT:
-            setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Light_Dialog_NoActionBar);
-            break;
         default:  // if no theme was specified, default to holo light
             setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Light_Dialog_NoActionBar);
         }
@@ -181,12 +174,12 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
 
     private void setupViews(View v)
     {
-        mViewPager = (CustomViewPager) v.findViewById(R.id.viewPager);
-        mSlidingTabLayout = (SlidingTabLayout) v.findViewById(R.id.slidingTabLayout);
+        mViewPager = v.findViewById(R.id.viewPager);
+        mSlidingTabLayout = v.findViewById(R.id.slidingTabLayout);
         mButtonHorizontalDivider = v.findViewById(R.id.buttonHorizontalDivider);
         mButtonVerticalDivider = v.findViewById(R.id.buttonVerticalDivider);
-        mOkButton = (Button) v.findViewById(R.id.okButton);
-        mCancelButton = (Button) v.findViewById(R.id.cancelButton);
+        mOkButton = v.findViewById(R.id.okButton);
+        mCancelButton = v.findViewById(R.id.cancelButton);
     }
 
     private void customizeViews()
@@ -217,7 +210,7 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
 
     private void initViewPager()
     {
-        mViewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
+        ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(mViewPagerAdapter);
 
         // Setting this custom layout for each tab ensures that the tabs will
@@ -237,38 +230,28 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
 
     private void initButtons()
     {
-        mOkButton.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v)
+        mOkButton.setOnClickListener(v -> {
+            if (mListener == null)
             {
-                if (mListener == null)
-                {
-                    throw new NullPointerException(
-                            "Listener no longer exists for mOkButton");
-                }
-
-                mListener.onDateTimeSet(new Date(mCalendar.getTimeInMillis()));
-
-                dismiss();
+                throw new NullPointerException(
+                        "Listener no longer exists for mOkButton");
             }
+
+            mListener.onDateTimeSet(new Date(mCalendar.getTimeInMillis()));
+
+            dismiss();
         });
 
-        mCancelButton.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v)
+        mCancelButton.setOnClickListener(v -> {
+            if (mListener == null)
             {
-                if (mListener == null)
-                {
-                    throw new NullPointerException(
-                            "Listener no longer exists for mCancelButton");
-                }
-
-                mListener.onDateTimeCancel();
-
-                dismiss();
+                throw new NullPointerException(
+                        "Listener no longer exists for mCancelButton");
             }
+
+            mListener.onDateTimeCancel();
+
+            dismiss();
         });
     }
 
@@ -309,8 +292,11 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
 
     private void updateDateTab()
     {
+        int dateFlags = DateUtils.FORMAT_SHOW_WEEKDAY |
+                DateUtils.FORMAT_SHOW_DATE |
+                DateUtils.FORMAT_ABBREV_ALL;
         mSlidingTabLayout.setTabText(0, DateUtils.formatDateTime(
-                mContext, mCalendar.getTimeInMillis(), mDateFlags));
+                mContext, mCalendar.getTimeInMillis(), dateFlags));
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -372,24 +358,20 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
             switch (position)
             {
             case 0:
-                DateFragment dateFragment = DateFragment.newInstance(
+                return DateFragment.newInstance(
                     mTheme,
                     mCalendar.get(Calendar.YEAR),
                     mCalendar.get(Calendar.MONTH),
                     mCalendar.get(Calendar.DAY_OF_MONTH),
                     mMinDate,
                     mMaxDate);
-                dateFragment.setTargetFragment(SlideDateTimeDialogFragment.this, 100);
-                return dateFragment;
             case 1:
-                TimeFragment timeFragment = TimeFragment.newInstance(
+                return TimeFragment.newInstance(
                     mTheme,
                     mCalendar.get(Calendar.HOUR_OF_DAY),
                     mCalendar.get(Calendar.MINUTE),
                     mIsClientSpecified24HourTime,
                     mIs24HourTime);
-                timeFragment.setTargetFragment(SlideDateTimeDialogFragment.this, 200);
-                return timeFragment;
             default:
                 return null;
             }

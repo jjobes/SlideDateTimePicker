@@ -1,16 +1,18 @@
 package com.github.jjobes.slidedatetimepicker;
 
 import android.content.Context;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
+import androidx.viewpager.widget.ViewPager;
+
 /**
- * A custom {@link android.support.v4.view.ViewPager} implementation that corrects
+ * A custom {@link androidx.viewpager.widget.ViewPager} implementation that corrects
  * the height of the ViewPager and also dispatches touch events to either the ViewPager
  * or the date or time picker depending on the direction of the swipe.
  *
@@ -65,12 +67,16 @@ public class CustomViewPager extends ViewPager
                 height = h;
         }
 
+//        if (height == 0) {
+//            height = Resources.getSystem().getDisplayMetrics().heightPixels;
+//        }
         heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
 
+        Log.v(CustomViewPager.class.getName(), "onMeasure: widthMeasureSpec=" + widthMeasureSpec + ", heightMeasureSpec=" + heightMeasureSpec + ", height=" + height);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        mDatePicker = (DatePicker) findViewById(R.id.datePicker);
-        mTimePicker = (TimePicker) findViewById(R.id.timePicker);
+        mDatePicker = findViewById(R.id.datePicker);
+        mTimePicker = findViewById(R.id.timePicker);
     }
 
     /**
@@ -146,14 +152,6 @@ public class CustomViewPager extends ViewPager
     {
         float deltaX = x2 - x1;
         float deltaY = y2 - y1;
-
-        if (Math.abs(deltaX) > mTouchSlop &&
-            Math.abs(deltaX) > Math.abs(deltaY))
-        {
-
-            return true;
-        }
-
-        return false;
+        return Math.abs(deltaX) > mTouchSlop && Math.abs(deltaX) > Math.abs(deltaY);
     }
 }

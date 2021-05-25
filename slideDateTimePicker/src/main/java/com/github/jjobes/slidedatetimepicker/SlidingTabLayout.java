@@ -21,8 +21,6 @@ package com.github.jjobes.slidedatetimepicker;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.util.TypedValue;
@@ -32,12 +30,17 @@ import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import java.util.Objects;
+
 /**
  * To be used with ViewPager to provide a tab indicator component which give constant feedback as to
  * the user's scroll progress.
  * <p>
  * To use the component, simply add it to your view hierarchy. Then in your
- * {@link android.app.Activity} or {@link android.support.v4.app.Fragment} call
+ * {@link android.app.Activity} or {@link androidx.fragment.app.Fragment} call
  * {@link #setViewPager(ViewPager)} providing it the ViewPager this layout is being used for.
  * <p>
  * The colors can be customized in two ways. The first and simplest is to provide an array of colors
@@ -76,14 +79,14 @@ public class SlidingTabLayout extends HorizontalScrollView {
     private static final int TAB_VIEW_PADDING_DIPS = 16;
     private static final int TAB_VIEW_TEXT_SIZE_SP = 12;
 
-    private int mTitleOffset;
+    private final int mTitleOffset;
 
     private int mTabViewLayoutId;
     private int mTabViewTextViewId;
 
     // A map of the TextViews in each tab.
     // Maps page index -> tab TextView
-    private SparseArray<TextView> mTabTitleViews = new SparseArray<TextView>();
+    private final SparseArray<TextView> mTabTitleViews = new SparseArray<>();
 
     private ViewPager mViewPager;
     private ViewPager.OnPageChangeListener mViewPagerPageChangeListener;
@@ -185,14 +188,12 @@ public class SlidingTabLayout extends HorizontalScrollView {
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP);
         textView.setTypeface(Typeface.DEFAULT_BOLD);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            // If we're running on Honeycomb or newer, then we can use the Theme's
-            // selectableItemBackground to ensure that the View has a pressed state
-            TypedValue outValue = new TypedValue();
-            getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground,
-                    outValue, true);
-            textView.setBackgroundResource(outValue.resourceId);
-        }
+        // If we're running on Honeycomb or newer, then we can use the Theme's
+        // selectableItemBackground to ensure that the View has a pressed state
+        TypedValue outValue = new TypedValue();
+        getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground,
+                outValue, true);
+        textView.setBackgroundResource(outValue.resourceId);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             // If we're running on ICS or newer, enable all-caps to match the Action Bar tab style
@@ -209,7 +210,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
         final PagerAdapter adapter = mViewPager.getAdapter();
         final View.OnClickListener tabClickListener = new TabClickListener();
 
-        for (int i = 0; i < adapter.getCount(); i++) {
+        for (int i = 0; i < Objects.requireNonNull(adapter).getCount(); i++) {
             View tabView = null;
             TextView tabTitleView = null;
 
@@ -217,18 +218,18 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 // If there is a custom tab view layout id set, try and inflate it
                 tabView = LayoutInflater.from(getContext()).inflate(mTabViewLayoutId, mTabStrip,
                         false);
-                tabTitleView = (TextView) tabView.findViewById(mTabViewTextViewId);
+                tabTitleView = tabView.findViewById(mTabViewTextViewId);
             }
 
             if (tabView == null) {
                 tabView = createDefaultTabView(getContext());
             }
 
-            if (tabTitleView == null && TextView.class.isInstance(tabView)) {
+            if (tabTitleView == null && tabView instanceof TextView) {
                 tabTitleView = (TextView) tabView;
             }
 
-            tabTitleView.setText(adapter.getPageTitle(i));
+            Objects.requireNonNull(tabTitleView).setText(adapter.getPageTitle(i));
             tabView.setOnClickListener(tabClickListener);
 
             // Used to get a reference to each tab's TextView in order to
@@ -246,7 +247,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
      * @param text  the text to display on the specified tab's TextView
      */
     public void setTabText(int index, String text) {
-        TextView tv = (TextView) mTabTitleViews.get(index);
+        TextView tv = mTabTitleViews.get(index);
 
         if (tv != null) {
             tv.setText(text);
@@ -264,7 +265,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
     private void scrollToTab(int tabIndex, int positionOffset) {
         final int tabStripChildCount = mTabStrip.getChildCount();
-        if (tabStripChildCount == 0 || tabIndex < 0 || tabIndex >= tabStripChildCount) {
+        if (tabIndex < 0 || tabIndex >= tabStripChildCount) {
             return;
         }
 
@@ -287,7 +288,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             int tabStripChildCount = mTabStrip.getChildCount();
-            if ((tabStripChildCount == 0) || (position < 0) || (position >= tabStripChildCount)) {
+            if ((position < 0) || (position >= tabStripChildCount)) {
                 return;
             }
 
