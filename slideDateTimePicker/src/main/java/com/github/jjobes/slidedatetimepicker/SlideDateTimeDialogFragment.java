@@ -1,18 +1,9 @@
 package com.github.jjobes.slidedatetimepicker;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -20,6 +11,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * <p>The {@code DialogFragment} that contains the {@link SlidingTabLayout}
@@ -32,9 +33,7 @@ import android.widget.Button;
  * @author jjobes
  *
  */
-public class SlideDateTimeDialogFragment extends DialogFragment implements DateFragment.DateChangedListener,
-                                                                           TimeFragment.TimeChangedListener
-{
+public class SlideDateTimeDialogFragment extends DialogFragment {
     public static final String TAG_SLIDE_DATE_TIME_DIALOG_FRAGMENT = "tagSlideDateTimeDialogFragment";
 
     private static SlideDateTimeListener mListener;
@@ -60,8 +59,7 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
         DateUtils.FORMAT_SHOW_DATE |
         DateUtils.FORMAT_ABBREV_ALL;
 
-    public SlideDateTimeDialogFragment()
-    {
+    public SlideDateTimeDialogFragment() {
         // Required empty public constructor
     }
 
@@ -70,21 +68,17 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
      * filled with the incoming arguments.</p>
      *
      * <p>Called by {@link SlideDateTimePicker#show()}.</p>
-     *
-     * @param listener
-     * @param initialDate
-     * @param minDate
-     * @param maxDate
-     * @param isClientSpecified24HourTime
-     * @param is24HourTime
-     * @param theme
-     * @param indicatorColor
-     * @return
      */
-    public static SlideDateTimeDialogFragment newInstance(SlideDateTimeListener listener,
-            Date initialDate, Date minDate, Date maxDate, boolean isClientSpecified24HourTime,
-            boolean is24HourTime, int theme, int indicatorColor)
-    {
+    public static SlideDateTimeDialogFragment newInstance(
+            SlideDateTimeListener listener,
+            Date initialDate,
+            Date minDate,
+            Date maxDate,
+            boolean isClientSpecified24HourTime,
+            boolean is24HourTime,
+            int theme,
+            int indicatorColor
+    ) {
         mListener = listener;
 
         // Create a new instance of SlideDateTimeDialogFragment
@@ -106,11 +100,10 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
     }
 
     @Override
-    public void onAttach(Activity activity)
-    {
-        super.onAttach(activity);
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
 
-        mContext = activity;
+        mContext = context;
     }
 
     @Override
@@ -163,6 +156,9 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
             getDialog().setDismissMessage(null);
         }
 
+        getChildFragmentManager().clearFragmentResult("111");
+        getChildFragmentManager().clearFragmentResult("222");
+
         super.onDestroyView();
     }
 
@@ -170,6 +166,7 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
     {
         Bundle args = getArguments();
 
+        assert args != null;
         mInitialDate = (Date) args.getSerializable("initialDate");
         mMinDate = (Date) args.getSerializable("minDate");
         mMaxDate = (Date) args.getSerializable("maxDate");
@@ -217,6 +214,31 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
 
     private void initViewPager()
     {
+        /**
+         * <p>The callback used by the DatePicker to update {@code mCalendar} as
+         * the user changes the date. Each time this is called, we also update
+         * the text on the date tab to reflect the date the user has currenly
+         * selected.</p>
+         */
+        getChildFragmentManager().setFragmentResultListener("111", getViewLifecycleOwner(), (requestKey, result) -> {
+            mCalendar.set(result.getInt("year"), result.getInt("monthOfYear"), result.getInt("dayOfMonth"));
+
+            updateDateTab();
+        });
+
+        /**
+         * <p>The callback used by the TimePicker to update {@code mCalendar} as
+         * the user changes the time. Each time this is called, we also update
+         * the text on the time tab to reflect the time the user has currenly
+         * selected.</p>
+         */
+        getChildFragmentManager().setFragmentResultListener("222", getViewLifecycleOwner(), (requestKey, result) -> {
+            mCalendar.set(Calendar.HOUR_OF_DAY, result.getInt("hourOfDay"));
+            mCalendar.set(Calendar.MINUTE, result.getInt("minute"));
+
+            updateTimeTab();
+        });
+
         mViewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(mViewPagerAdapter);
 
@@ -270,41 +292,6 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
                 dismiss();
             }
         });
-    }
-
-    /**
-     * <p>The callback used by the DatePicker to update {@code mCalendar} as
-     * the user changes the date. Each time this is called, we also update
-     * the text on the date tab to reflect the date the user has currenly
-     * selected.</p>
-     *
-     * <p>Implements the {@link DateFragment.DateChangedListener}
-     * interface.</p>
-     */
-    @Override
-    public void onDateChanged(int year, int month, int day)
-    {
-        mCalendar.set(year, month, day);
-
-        updateDateTab();
-    }
-
-    /**
-     * <p>The callback used by the TimePicker to update {@code mCalendar} as
-     * the user changes the time. Each time this is called, we also update
-     * the text on the time tab to reflect the time the user has currenly
-     * selected.</p>
-     *
-     * <p>Implements the {@link TimeFragment.TimeChangedListener}
-     * interface.</p>
-     */
-    @Override
-    public void onTimeChanged(int hour, int minute)
-    {
-        mCalendar.set(Calendar.HOUR_OF_DAY, hour);
-        mCalendar.set(Calendar.MINUTE, minute);
-
-        updateTimeTab();
     }
 
     private void updateDateTab()
@@ -366,32 +353,24 @@ public class SlideDateTimeDialogFragment extends DialogFragment implements DateF
             super(fm);
         }
 
+        @NonNull
         @Override
-        public Fragment getItem(int position)
-        {
-            switch (position)
-            {
-            case 0:
-                DateFragment dateFragment = DateFragment.newInstance(
-                    mTheme,
-                    mCalendar.get(Calendar.YEAR),
-                    mCalendar.get(Calendar.MONTH),
-                    mCalendar.get(Calendar.DAY_OF_MONTH),
-                    mMinDate,
-                    mMaxDate);
-                dateFragment.setTargetFragment(SlideDateTimeDialogFragment.this, 100);
-                return dateFragment;
-            case 1:
-                TimeFragment timeFragment = TimeFragment.newInstance(
-                    mTheme,
-                    mCalendar.get(Calendar.HOUR_OF_DAY),
-                    mCalendar.get(Calendar.MINUTE),
-                    mIsClientSpecified24HourTime,
-                    mIs24HourTime);
-                timeFragment.setTargetFragment(SlideDateTimeDialogFragment.this, 200);
-                return timeFragment;
-            default:
-                return null;
+        public Fragment getItem(int position) {
+            if (position == 0) {
+                return DateFragment.newInstance(
+                        mTheme,
+                        mCalendar.get(Calendar.YEAR),
+                        mCalendar.get(Calendar.MONTH),
+                        mCalendar.get(Calendar.DAY_OF_MONTH),
+                        mMinDate,
+                        mMaxDate);
+            } else {
+                return TimeFragment.newInstance(
+                        mTheme,
+                        mCalendar.get(Calendar.HOUR_OF_DAY),
+                        mCalendar.get(Calendar.MINUTE),
+                        mIsClientSpecified24HourTime,
+                        mIs24HourTime);
             }
         }
 
