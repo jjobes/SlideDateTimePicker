@@ -1,12 +1,12 @@
 package com.github.jjobes.slidedatetimepicker;
 
-import java.lang.reflect.Field;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.NumberPicker;
+
+import java.lang.reflect.Field;
 
 /**
  * A subclass of {@link android.widget.DatePicker} that uses
@@ -24,15 +24,15 @@ public class CustomDatePicker extends DatePicker
     {
         super(context, attrs);
 
-        Class<?> idClass = null;
-        Class<?> numberPickerClass = null;
-        Field selectionDividerField = null;
-        Field monthField = null;
-        Field dayField = null;
-        Field yearField = null;
-        NumberPicker monthNumberPicker = null;
-        NumberPicker dayNumberPicker = null;
-        NumberPicker yearNumberPicker = null;
+        Class<?> idClass;
+        Class<?> numberPickerClass;
+        Field selectionDividerField;
+        Field monthField;
+        Field dayField;
+        Field yearField;
+        NumberPicker monthNumberPicker;
+        NumberPicker dayNumberPicker;
+        NumberPicker yearNumberPicker;
 
         try
         {
@@ -45,9 +45,9 @@ public class CustomDatePicker extends DatePicker
             yearField = idClass.getField("year");
 
             // Use the resource IDs to get references to the month, day and year NumberPickers
-            monthNumberPicker = (NumberPicker) findViewById(monthField.getInt(null));
-            dayNumberPicker = (NumberPicker) findViewById(dayField.getInt(null));
-            yearNumberPicker = (NumberPicker) findViewById(yearField.getInt(null));
+            monthNumberPicker = findViewById(monthField.getInt(null));
+            dayNumberPicker = findViewById(dayField.getInt(null));
+            yearNumberPicker = findViewById(yearField.getInt(null));
 
             numberPickerClass = Class.forName("android.widget.NumberPicker");
 

@@ -1,18 +1,17 @@
 package com.github.jjobes.slidedatetimepicker.sample;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.fragment.app.FragmentActivity;
+
 import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Sample test class for SlideDateTimePicker.
@@ -23,10 +22,9 @@ import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker;
 @SuppressLint("SimpleDateFormat")
 public class SampleActivity extends FragmentActivity
 {
-    private SimpleDateFormat mFormatter = new SimpleDateFormat("MMMM dd yyyy hh:mm aa");
-    private Button mButton;
+    private final SimpleDateFormat mFormatter = new SimpleDateFormat("MMMM dd yyyy hh:mm aa");
 
-    private SlideDateTimeListener listener = new SlideDateTimeListener() {
+    private final SlideDateTimeListener listener = new SlideDateTimeListener() {
 
         @Override
         public void onDateTimeSet(Date date)
@@ -51,24 +49,17 @@ public class SampleActivity extends FragmentActivity
 
         setContentView(R.layout.activity_sample);
 
-        mButton = (Button) findViewById(R.id.button);
+        Button mButton = findViewById(R.id.button);
 
-        mButton.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v)
-            {
-                new SlideDateTimePicker.Builder(getSupportFragmentManager())
-                    .setListener(listener)
-                    .setInitialDate(new Date())
-                    //.setMinDate(minDate)
-                    //.setMaxDate(maxDate)
-                    //.setIs24HourTime(true)
-                    //.setTheme(SlideDateTimePicker.HOLO_DARK)
-                    //.setIndicatorColor(Color.parseColor("#990000"))
-                    .build()
-                    .show();
-            }
-        });
+        mButton.setOnClickListener(v -> new SlideDateTimePicker.Builder(getSupportFragmentManager())
+            .setListener(listener)
+            .setInitialDate(new Date())
+            //.setMinDate(minDate)
+            //.setMaxDate(maxDate)
+            //.setIs24HourTime(true)
+            //.setTheme(SlideDateTimePicker.HOLO_DARK)
+            //.setIndicatorColor(Color.parseColor("#990000"))
+            .build()
+            .show());
     }
 }

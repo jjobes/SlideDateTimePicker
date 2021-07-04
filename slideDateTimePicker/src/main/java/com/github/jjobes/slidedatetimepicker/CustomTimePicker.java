@@ -24,15 +24,15 @@ public class CustomTimePicker extends TimePicker
     {
         super(context, attrs);
 
-        Class<?> idClass = null;
-        Class<?> numberPickerClass = null;
-        Field selectionDividerField = null;
-        Field hourField = null;
-        Field minuteField = null;
-        Field amPmField = null;
-        NumberPicker hourNumberPicker = null;
-        NumberPicker minuteNumberPicker = null;
-        NumberPicker amPmNumberPicker = null;
+        Class<?> idClass;
+        Class<?> numberPickerClass;
+        Field selectionDividerField;
+        Field hourField;
+        Field minuteField;
+        Field amPmField;
+        NumberPicker hourNumberPicker;
+        NumberPicker minuteNumberPicker;
+        NumberPicker amPmNumberPicker;
 
         try
         {
@@ -45,9 +45,9 @@ public class CustomTimePicker extends TimePicker
             amPmField = idClass.getField("amPm");
 
             // Use the resource IDs to get references to the hour, minute and amPm NumberPickers
-            hourNumberPicker = (NumberPicker) findViewById(hourField.getInt(null));
-            minuteNumberPicker = (NumberPicker) findViewById(minuteField.getInt(null));
-            amPmNumberPicker = (NumberPicker) findViewById(amPmField.getInt(null));
+            hourNumberPicker = findViewById(hourField.getInt(null));
+            minuteNumberPicker = findViewById(minuteField.getInt(null));
+            amPmNumberPicker = findViewById(amPmField.getInt(null));
 
             numberPickerClass = Class.forName("android.widget.NumberPicker");
 

@@ -1,16 +1,16 @@
 package com.github.jjobes.slidedatetimepicker;
 
-import java.util.Date;
-
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.DatePicker.OnDateChangedListener;
+
+import androidx.fragment.app.Fragment;
+
+import java.util.Date;
 
 /**
  * The fragment for the first page in the ViewPager that holds
@@ -32,7 +32,6 @@ public class DateFragment extends Fragment
     }
 
     private DateChangedListener mCallback;
-    private CustomDatePicker mDatePicker;
 
     public DateFragment()
     {
@@ -50,7 +49,7 @@ public class DateFragment extends Fragment
 
         try
         {
-            mCallback = (DateChangedListener) getTargetFragment();
+            mCallback = (DateChangedListener) getParentFragment();
         }
         catch (ClassCastException e)
         {
@@ -62,7 +61,7 @@ public class DateFragment extends Fragment
     /**
      * Return an instance of DateFragment with its bundle filled with the
      * constructor arguments. The values in the bundle are retrieved in
-     * {@link #onCreateView()} below to properly initialize the DatePicker.
+     * onCreateView below to properly initialize the DatePicker.
      *
      * @param theme
      * @param year
@@ -72,8 +71,8 @@ public class DateFragment extends Fragment
      * @param maxDate
      * @return an instance of DateFragment
      */
-    public static final DateFragment newInstance(int theme, int year, int month,
-            int day, Date minDate, Date maxDate)
+    public static DateFragment newInstance(int theme, int year, int month,
+                                           int day, Date minDate, Date maxDate)
     {
         DateFragment f = new DateFragment();
 
@@ -119,28 +118,20 @@ public class DateFragment extends Fragment
 
         View v = localInflater.inflate(R.layout.fragment_date, container, false);
 
-        mDatePicker = (CustomDatePicker) v.findViewById(R.id.datePicker);
+        DatePicker datePicker = v.findViewById(R.id.datePicker);
         // block keyboard popping up on touch
-        mDatePicker.setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
-        mDatePicker.init(
+        datePicker.setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
+        datePicker.init(
             initialYear,
             initialMonth,
             initialDay,
-            new OnDateChangedListener() {
-
-                @Override
-                public void onDateChanged(DatePicker view, int year,
-                        int monthOfYear, int dayOfMonth)
-                {
-                    mCallback.onDateChanged(year, monthOfYear, dayOfMonth);
-                }
-            });
+                (view, year, monthOfYear, dayOfMonth) -> mCallback.onDateChanged(year, monthOfYear, dayOfMonth));
 
         if (minDate != null)
-            mDatePicker.setMinDate(minDate.getTime());
+            datePicker.setMinDate(minDate.getTime());
 
         if (maxDate != null)
-            mDatePicker.setMaxDate(maxDate.getTime());
+            datePicker.setMaxDate(maxDate.getTime());
 
         return v;
     }
