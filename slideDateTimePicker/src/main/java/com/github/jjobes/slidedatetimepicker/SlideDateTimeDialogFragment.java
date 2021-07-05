@@ -8,7 +8,6 @@ import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 
@@ -54,7 +53,7 @@ public class SlideDateTimeDialogFragment extends DialogFragment {
     private boolean mIsClientSpecified24HourTime;
     private boolean mIs24HourTime;
     private Calendar mCalendar;
-    private int mDateFlags =
+    private final int mDateFlags =
         DateUtils.FORMAT_SHOW_WEEKDAY |
         DateUtils.FORMAT_SHOW_DATE |
         DateUtils.FORMAT_ABBREV_ALL;
@@ -118,15 +117,10 @@ public class SlideDateTimeDialogFragment extends DialogFragment {
         mCalendar = Calendar.getInstance();
         mCalendar.setTime(mInitialDate);
 
-        switch (mTheme)
-        {
-        case SlideDateTimePicker.HOLO_DARK:
+        if (mTheme == SlideDateTimePicker.HOLO_DARK) {
             setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Dialog_NoActionBar);
-            break;
-        case SlideDateTimePicker.HOLO_LIGHT:
-            setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Light_Dialog_NoActionBar);
-            break;
-        default:  // if no theme was specified, default to holo light
+        } else {
+            // if HOLO_LIGHT or no theme was specified, default to holo light
             setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Light_Dialog_NoActionBar);
         }
     }
@@ -220,11 +214,16 @@ public class SlideDateTimeDialogFragment extends DialogFragment {
          * the text on the date tab to reflect the date the user has currenly
          * selected.</p>
          */
-        getChildFragmentManager().setFragmentResultListener("111", getViewLifecycleOwner(), (requestKey, result) -> {
-            mCalendar.set(result.getInt("year"), result.getInt("monthOfYear"), result.getInt("dayOfMonth"));
+        getChildFragmentManager()
+                .setFragmentResultListener(DateFragment.DATE_FRAGMENT_KEY, getViewLifecycleOwner(), (requestKey, result) -> {
+                    mCalendar.set(
+                            result.getInt("year"),
+                            result.getInt("monthOfYear"),
+                            result.getInt("dayOfMonth")
+                    );
 
-            updateDateTab();
-        });
+                    updateDateTab();
+                });
 
         /**
          * <p>The callback used by the TimePicker to update {@code mCalendar} as
@@ -232,12 +231,13 @@ public class SlideDateTimeDialogFragment extends DialogFragment {
          * the text on the time tab to reflect the time the user has currenly
          * selected.</p>
          */
-        getChildFragmentManager().setFragmentResultListener("222", getViewLifecycleOwner(), (requestKey, result) -> {
-            mCalendar.set(Calendar.HOUR_OF_DAY, result.getInt("hourOfDay"));
-            mCalendar.set(Calendar.MINUTE, result.getInt("minute"));
+        getChildFragmentManager()
+                .setFragmentResultListener(TimeFragment.TIME_FRAGMENT_KEY, getViewLifecycleOwner(), (requestKey, result) -> {
+                    mCalendar.set(Calendar.HOUR_OF_DAY, result.getInt("hourOfDay"));
+                    mCalendar.set(Calendar.MINUTE, result.getInt("minute"));
 
-            updateTimeTab();
-        });
+                    updateTimeTab();
+                });
 
         mViewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(mViewPagerAdapter);
@@ -259,38 +259,28 @@ public class SlideDateTimeDialogFragment extends DialogFragment {
 
     private void initButtons()
     {
-        mOkButton.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v)
+        mOkButton.setOnClickListener(v -> {
+            if (mListener == null)
             {
-                if (mListener == null)
-                {
-                    throw new NullPointerException(
-                            "Listener no longer exists for mOkButton");
-                }
-
-                mListener.onDateTimeSet(new Date(mCalendar.getTimeInMillis()));
-
-                dismiss();
+                throw new NullPointerException(
+                        "Listener no longer exists for mOkButton");
             }
+
+            mListener.onDateTimeSet(new Date(mCalendar.getTimeInMillis()));
+
+            dismiss();
         });
 
-        mCancelButton.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v)
+        mCancelButton.setOnClickListener(v -> {
+            if (mListener == null)
             {
-                if (mListener == null)
-                {
-                    throw new NullPointerException(
-                            "Listener no longer exists for mCancelButton");
-                }
-
-                mListener.onDateTimeCancel();
-
-                dismiss();
+                throw new NullPointerException(
+                        "Listener no longer exists for mCancelButton");
             }
+
+            mListener.onDateTimeCancel();
+
+            dismiss();
         });
     }
 
@@ -333,7 +323,7 @@ public class SlideDateTimeDialogFragment extends DialogFragment {
      * event handler.</p>
      */
     @Override
-    public void onCancel(DialogInterface dialog)
+    public void onCancel(@NonNull DialogInterface dialog)
     {
         super.onCancel(dialog);
 

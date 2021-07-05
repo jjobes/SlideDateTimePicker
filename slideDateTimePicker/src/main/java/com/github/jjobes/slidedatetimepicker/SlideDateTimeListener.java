@@ -31,8 +31,5 @@ public abstract class SlideDateTimeListener
      * the dialog or pressing the Back button.
      * This override is optional.
      */
-    public void onDateTimeCancel()
-    {
-
-    }
+    public void onDateTimeCancel() {}
 }

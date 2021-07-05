@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
  */
 public class TimeFragment extends Fragment
 {
+    public static final String TIME_FRAGMENT_KEY = "200";
 
     private TimePicker mTimePicker;
 
@@ -64,6 +65,7 @@ public class TimeFragment extends Fragment
             ViewGroup container,
             Bundle savedInstanceState
     ) {
+        assert getArguments() != null;
         int theme = getArguments().getInt("theme");
         int initialHour = getArguments().getInt("hour");
         int initialMinute = getArguments().getInt("minute");
@@ -93,7 +95,7 @@ public class TimeFragment extends Fragment
             Bundle result = new Bundle();
             result.putInt("hourOfDay", hourOfDay);
             result.putInt("minute", minute);
-            getParentFragmentManager().setFragmentResult("222", result);
+            getParentFragmentManager().setFragmentResult(TIME_FRAGMENT_KEY, result);
         });
 
         // If the client specifies a 24-hour time format, set it on

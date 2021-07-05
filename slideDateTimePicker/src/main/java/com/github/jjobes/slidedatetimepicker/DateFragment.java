@@ -21,11 +21,7 @@ import androidx.fragment.app.Fragment;
  */
 public class DateFragment extends Fragment
 {
-    /**
-     * Used to communicate back to the parent fragment as the user
-     * is changing the date spinners so we can dynamically update
-     * the tab text.
-     */
+    public static final String DATE_FRAGMENT_KEY = "100";
 
     private CustomDatePicker mDatePicker;
 
@@ -70,6 +66,7 @@ public class DateFragment extends Fragment
             ViewGroup container,
             Bundle savedInstanceState
     ) {
+        assert getArguments() != null;
         int theme = getArguments().getInt("theme");
         int initialYear = getArguments().getInt("year");
         int initialMonth = getArguments().getInt("month");
@@ -105,7 +102,7 @@ public class DateFragment extends Fragment
                     result.putInt("year", year);
                     result.putInt("monthOfYear", monthOfYear);
                     result.putInt("dayOfMonth", dayOfMonth);
-                    getParentFragmentManager().setFragmentResult("111", result);
+                    getParentFragmentManager().setFragmentResult(DATE_FRAGMENT_KEY, result);
                 });
 
         if (minDate != null)
