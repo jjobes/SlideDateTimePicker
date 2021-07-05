@@ -3,7 +3,6 @@ package com.github.jjobes.slidedatetimepicker;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -11,8 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.NumberPicker;
-import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.TimePicker;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * The fragment for the second page in the ViewPager that holds
@@ -23,59 +23,26 @@ import android.widget.TimePicker;
  */
 public class TimeFragment extends Fragment
 {
-    /**
-     * Used to communicate back to the parent fragment as the user
-     * is changing the time spinners so we can dynamically update
-     * the tab text.
-     */
-    public interface TimeChangedListener
-    {
-        void onTimeChanged(int hour, int minute);
-    }
+    public static final String TIME_FRAGMENT_KEY = "200";
 
-    private TimeChangedListener mCallback;
     private TimePicker mTimePicker;
 
-    public TimeFragment()
-    {
+    public TimeFragment() {
         // Required empty public constructor for fragment.
-    }
-
-    /**
-     * Cast the reference to {@link SlideDateTimeDialogFragment} to a
-     * {@link TimeChangedListener}.
-     */
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-
-        try
-        {
-            mCallback = (TimeChangedListener) getTargetFragment();
-        }
-        catch (ClassCastException e)
-        {
-            throw new ClassCastException("Calling fragment must implement " +
-                "TimeFragment.TimeChangedListener interface");
-        }
     }
 
     /**
      * Return an instance of TimeFragment with its bundle filled with the
      * constructor arguments. The values in the bundle are retrieved in
-     * {@link #onCreateView()} below to properly initialize the TimePicker.
-     *
-     * @param theme
-     * @param hour
-     * @param minute
-     * @param isClientSpecified24HourTime
-     * @param is24HourTime
-     * @return
+     * {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)} below to properly initialize the TimePicker.
      */
-    public static final TimeFragment newInstance(int theme, int hour, int minute,
-        boolean isClientSpecified24HourTime, boolean is24HourTime)
-    {
+    public static TimeFragment newInstance(
+            int theme,
+            int hour,
+            int minute,
+            boolean isClientSpecified24HourTime,
+            boolean is24HourTime
+    ) {
         TimeFragment f = new TimeFragment();
 
         Bundle b = new Bundle();
@@ -93,9 +60,12 @@ public class TimeFragment extends Fragment
      * Create and return the user interface view for this fragment.
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState)
-    {
+    public View onCreateView(
+            LayoutInflater inflater,
+            ViewGroup container,
+            Bundle savedInstanceState
+    ) {
+        assert getArguments() != null;
         int theme = getArguments().getInt("theme");
         int initialHour = getArguments().getInt("hour");
         int initialMinute = getArguments().getInt("minute");
@@ -111,8 +81,8 @@ public class TimeFragment extends Fragment
         Context contextThemeWrapper = new ContextThemeWrapper(
                 getActivity(),
                 theme == SlideDateTimePicker.HOLO_DARK ?
-                         android.R.style.Theme_Holo :
-                         android.R.style.Theme_Holo_Light);
+                        android.R.style.Theme_Holo :
+                        android.R.style.Theme_Holo_Light);
 
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
 
@@ -121,13 +91,11 @@ public class TimeFragment extends Fragment
         mTimePicker = (TimePicker) v.findViewById(R.id.timePicker);
         // block keyboard popping up on touch
         mTimePicker.setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
-        mTimePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-
-            @Override
-            public void onTimeChanged(TimePicker view, int hourOfDay, int minute)
-            {
-                mCallback.onTimeChanged(hourOfDay, minute);
-            }
+        mTimePicker.setOnTimeChangedListener((view, hourOfDay, minute) -> {
+            Bundle result = new Bundle();
+            result.putInt("hourOfDay", hourOfDay);
+            result.putInt("minute", minute);
+            getParentFragmentManager().setFragmentResult(TIME_FRAGMENT_KEY, result);
         });
 
         // If the client specifies a 24-hour time format, set it on
@@ -140,8 +108,7 @@ public class TimeFragment extends Fragment
         {
             // If the client does not specify a 24-hour time format, use the
             // device default.
-            mTimePicker.setIs24HourView(DateFormat.is24HourFormat(
-                getTargetFragment().getActivity()));
+            mTimePicker.setIs24HourView(DateFormat.is24HourFormat(requireActivity()));
         }
 
         mTimePicker.setCurrentHour(initialHour);
@@ -150,7 +117,7 @@ public class TimeFragment extends Fragment
         // Fix for the bug where a TimePicker's onTimeChanged() is not called when
         // the user toggles the AM/PM button. Only applies to 4.0.0 and 4.0.3.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH &&
-            Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+                Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
         {
             fixTimePickerBug18982();
         }
@@ -174,26 +141,22 @@ public class TimeFragment extends Fragment
 
         if (amPmView instanceof NumberPicker)
         {
-            ((NumberPicker) amPmView).setOnValueChangedListener(new OnValueChangeListener() {
-
-                @Override
-                public void onValueChange(NumberPicker picker, int oldVal, int newVal)
+            ((NumberPicker) amPmView).setOnValueChangedListener((picker, oldVal, newVal) -> {
+                if (picker.getValue() == 1)  // PM
                 {
-                    if (picker.getValue() == 1)  // PM
-                    {
-                        if (mTimePicker.getCurrentHour() < 12)
-                            mTimePicker.setCurrentHour(mTimePicker.getCurrentHour() + 12);
-                    }
-                    else  // AM
-                    {
-                        if (mTimePicker.getCurrentHour() >= 12)
-                            mTimePicker.setCurrentHour(mTimePicker.getCurrentHour() - 12);
-                    }
-
-                    mCallback.onTimeChanged(
-                        mTimePicker.getCurrentHour(),
-                        mTimePicker.getCurrentMinute());
+                    if (mTimePicker.getCurrentHour() < 12)
+                        mTimePicker.setCurrentHour(mTimePicker.getCurrentHour() + 12);
                 }
+                else  // AM
+                {
+                    if (mTimePicker.getCurrentHour() >= 12)
+                        mTimePicker.setCurrentHour(mTimePicker.getCurrentHour() - 12);
+                }
+
+                Bundle result = new Bundle();
+                result.putInt("hourOfDay", mTimePicker.getCurrentHour());
+                result.putInt("minute", mTimePicker.getCurrentMinute());
+                getParentFragmentManager().setFragmentResult("222", result);
             });
         }
     }
